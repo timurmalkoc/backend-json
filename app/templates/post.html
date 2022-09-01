@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Post : {{ post.title }}{% endblock title %}
+
+{% block content %}
+<h4>{{ post.title }}</h4>
+<h5>{{ post.body }}</h5>
+<h6>{{ post.author.username }}</h6>
+<h6>{{ post.date_created.strftime('%A, %B, %d, %Y') }}</h6>
+{% if current_user == post.author %}
+    <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-success w-30">Edit Post</a>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-danger w-30" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Post</button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            Are you sure to delete {{ post.title }}
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock content %}
